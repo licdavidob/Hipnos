@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GenerarQR;
+use App\Http\Controllers\UsuarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ use App\Http\Controllers\GenerarQR;
 |
 */
 
-Route::get('/', [GenerarQR::class, 'prueba']);
+Route::post('/Usuario', [UsuarioController::class, 'store']);
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

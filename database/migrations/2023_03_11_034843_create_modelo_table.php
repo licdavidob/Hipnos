@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('modelo', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('ID_Modelo');
-            $table->char('Modelo', 20);
+            $table->char('Modelo', 30);
             $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
             $table->timestamps();
         });
-
     }
 
     /**
