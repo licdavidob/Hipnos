@@ -23,6 +23,14 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $BusquedaUsuarios = Usuario::all();
+        foreach ($BusquedaUsuarios as $Usuario) {
+            $Usuario->ID_Permiso = $Usuario->Permiso;
+            $Usuario->ID_Tipo_Usuario = $Usuario->Tipo_Usuario;
+            $Usuarios[] = $Usuario;
+        }
+
+        return view('Usuario', compact('Usuarios'));
     }
 
     /**
@@ -30,6 +38,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'Nombre' => ['required', 'max:50'],
             'Ap_Paterno' => ['required', 'max:50'],
@@ -95,5 +104,20 @@ class UsuarioController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getUsuario()
+    {
+        $Usuario['ID_Usuario'] = $this->ID_Usuario;
+        $Usuario['Nombre'] = $this->Nombre;
+        $Usuario['Ap_Paterno'] = $this->Ap_Paterno;
+        $Usuario['Ap_Materno'] = $this->Ap_Materno;
+        $Usuario['ID_Tipo_Usuario'] = $this->ID_Tipo_Usuario;
+        $Usuario['ID_Permiso'] = $this->ID_Permiso;
+        $Usuario['Telefono'] = $this->Telefono;
+        $Usuario['Email'] = $this->Email;
+        $Usuario['Estatus'] = $this->Estatus;
+
+        return $Usuario;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Modelo;
 use App\Imports\ModeloImport;
 use Maatwebsite\Excel\Facades\Excel;
 

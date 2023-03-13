@@ -73,4 +73,14 @@ class PermisoController extends Controller
     {
         //
     }
+
+    public function getPermiso()
+    {
+        $Permiso['ID_Permiso'] = $this->ID_Permiso;
+        $Permiso['Inicio_Ingreso'] = $this->Inicio_Ingreso;
+        $Permiso['Fin_Ingreso'] = $this->Fin_Ingreso;
+        $Permiso['Estatus'] = $this->Estatus;
+
+        return $Permiso;
+    }
 }

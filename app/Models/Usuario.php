@@ -26,7 +26,7 @@ class Usuario extends Model
 
     public function Permiso()
     {
-        return $this->hasOne(Usuario::class, 'ID_Permiso', 'ID_Permiso');
+        return $this->hasOne(Permiso::class, 'ID_Permiso', 'ID_Permiso');
     }
 
     public function Tipo_Usuario()
