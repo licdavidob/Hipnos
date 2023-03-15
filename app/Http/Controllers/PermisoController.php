@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permiso;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PermisoController extends Controller
 {
@@ -82,5 +83,22 @@ class PermisoController extends Controller
         $Permiso['Estatus'] = $this->Estatus;
 
         return $Permiso;
+    }
+
+    public function RevisarHoyEnPermiso($IniciaIngreso, $FinIngreso)
+    {
+        $Hoy = Carbon::now();
+        $IniciaIngreso = Carbon::parse($IniciaIngreso);
+        $FinIngreso = Carbon::parse($FinIngreso);
+
+        $IniciaIngreso = strtotime($IniciaIngreso);
+        $FinIngreso = strtotime($FinIngreso);
+        $Hoy = strtotime($Hoy->toDateString());
+
+        if (($Hoy >= $IniciaIngreso) && ($Hoy <= $FinIngreso)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

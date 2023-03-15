@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\PermisoController;
-
+use App\Models\Permiso;
 use App\Models\Usuario;
 
 class UsuarioController extends Controller
@@ -13,8 +13,8 @@ class UsuarioController extends Controller
     public string $Nombre;
     public string $Ap_Paterno;
     public string $Ap_Materno;
-    public int $ID_Tipo_Usuario;
-    public int $ID_Permiso;
+    public $ID_Tipo_Usuario;
+    public $ID_Permiso;
     public string $Telefono;
     public string $Email;
     public bool $Estatus;
@@ -23,13 +23,14 @@ class UsuarioController extends Controller
      */
     public function index()
     {
+        $Usuarios = array();
         $BusquedaUsuarios = Usuario::all();
         foreach ($BusquedaUsuarios as $Usuario) {
             $Usuario->ID_Permiso = $Usuario->Permiso;
             $Usuario->ID_Tipo_Usuario = $Usuario->Tipo_Usuario;
             $Usuarios[] = $Usuario;
         }
-
+        return $Usuarios;
         return view('Usuario', compact('Usuarios'));
     }
 
@@ -68,16 +69,8 @@ class UsuarioController extends Controller
 
     public function latestUsuario(): static
     {
-        $PermisoInsertado = Usuario::latest('ID_Usuario')->first();
-        $this->ID_Usuario = $PermisoInsertado->ID_Usuario;
-        $this->Nombre = $PermisoInsertado->Nombre;
-        $this->Ap_Paterno = $PermisoInsertado->Ap_Paterno;
-        $this->Ap_Materno = $PermisoInsertado->Ap_Materno;
-        $this->ID_Tipo_Usuario = $PermisoInsertado->ID_Tipo_Usuario;
-        $this->ID_Permiso = $PermisoInsertado->ID_Permiso;
-        $this->Telefono = $PermisoInsertado->Telefono;
-        $this->Email = $PermisoInsertado->Email;
-        $this->Estatus = $PermisoInsertado->Estatus;
+        $UsuarioInsertado = Usuario::latest('ID_Usuario')->first();
+        $this->extracted($UsuarioInsertado);
 
         return $this;
     }
@@ -85,9 +78,16 @@ class UsuarioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id_usuario)
     {
-        //
+        $BusquedaUsuario = Usuario::find($id_usuario);
+        if ($BusquedaUsuario) {
+            $BusquedaUsuario->ID_Permiso = $BusquedaUsuario->Permiso;
+            $BusquedaUsuario->ID_Tipo_Usuario = $BusquedaUsuario->Tipo_Usuario;
+            $this->extracted($BusquedaUsuario);
+            return $this;
+        }
+        return $BusquedaUsuario;
     }
 
     /**
@@ -119,5 +119,44 @@ class UsuarioController extends Controller
         $Usuario['Estatus'] = $this->Estatus;
 
         return $Usuario;
+    }
+
+    public function AccessParking(int $id_usuario)
+    {
+        //Se valida que el usuario exista
+        if (!$this->show($id_usuario)) {
+            return false;
+        }
+
+        //Se valida que el usuario sea activo
+        if (!$this->Estatus) {
+            return false;
+        }
+
+        $Permiso = new PermisoController();
+        $IniciaIngreso = $this->ID_Permiso->Inicio_Ingreso;
+        $FinIngreso = $this->ID_Permiso->Fin_Ingreso;
+        if (!$Permiso->RevisarHoyEnPermiso($IniciaIngreso, $FinIngreso)) {
+            return "Permiso no válido";
+        }
+
+        return "Puedes continuar";
+    }
+
+    /**
+     * @param $BusquedaUsuario
+     * @return void
+     */
+    public function extracted($BusquedaUsuario): void
+    {
+        $this->ID_Usuario = $BusquedaUsuario->ID_Usuario;
+        $this->Nombre = $BusquedaUsuario->Nombre;
+        $this->Ap_Paterno = $BusquedaUsuario->Ap_Paterno;
+        $this->Ap_Materno = $BusquedaUsuario->Ap_Materno;
+        $this->ID_Tipo_Usuario = $BusquedaUsuario->ID_Tipo_Usuario;
+        $this->ID_Permiso = $BusquedaUsuario->ID_Permiso;
+        $this->Telefono = $BusquedaUsuario->Telefono;
+        $this->Email = $BusquedaUsuario->Email;
+        $this->Estatus = $BusquedaUsuario->Estatus;
     }
 }

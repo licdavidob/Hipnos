@@ -17,6 +17,7 @@ use App\Http\Controllers\UsuarioController;
 Route::post('/Usuario', [UsuarioController::class, 'store']);
 Route::get('/Usuario', [UsuarioController::class, 'index'])->name('Usuario');
 
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
