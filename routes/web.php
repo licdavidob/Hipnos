@@ -16,6 +16,7 @@ use App\Http\Controllers\UsuarioController;
 
 Route::post('/Usuario', [UsuarioController::class, 'store']);
 Route::get('/Usuario', [UsuarioController::class, 'index'])->name('Usuario');
+Route::put('/Usuario', [UsuarioController::class, 'update']);
 
 
 Route::middleware([

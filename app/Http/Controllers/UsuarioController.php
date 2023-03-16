@@ -30,7 +30,7 @@ class UsuarioController extends Controller
             $Usuario->ID_Tipo_Usuario = $Usuario->Tipo_Usuario;
             $Usuarios[] = $Usuario;
         }
-        return $Usuarios;
+
         return view('Usuario', compact('Usuarios'));
     }
 
@@ -40,19 +40,22 @@ class UsuarioController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'Nombre' => ['required', 'max:50'],
-            'Ap_Paterno' => ['required', 'max:50'],
-            'Ap_Materno' => ['max:50'],
-            'ID_Tipo_Usuario' => ['required'],
-            'Permiso.Inicio_Ingreso' => ['required', 'date'],
-            'Permiso.Fin_Ingreso' => ['required', 'date'],
-            'Telefono' => ['unique:usuario,Telefono', 'max:15'],
-            'Email' => ['unique:usuario,Email', 'max:50', 'email'],
-        ]);
+        // $request->validate([
+        //     'Nombre' => ['required', 'max:50'],
+        //     'Ap_Paterno' => ['required', 'max:50'],
+        //     'Ap_Materno' => ['max:50'],
+        //     'ID_Tipo_Usuario' => ['required'],
+        //     'Permiso.Inicio_Ingreso' => ['required', 'date'],
+        //     'Permiso.Fin_Ingreso' => ['required', 'date'],
+        //     'Telefono' => ['unique:usuario,Telefono', 'max:15'],
+        //     'Email' => ['unique:usuario,Email', 'max:50', 'email'],
+        // ]);
 
+        $PermisoRequest = $request->Permiso;
         $Permiso = new PermisoController();
-        $Permiso->store($request->Permiso)->latestPermiso();
+        $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
+        $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
+        $Permiso->store($Permiso)->latestPermiso();
 
         Usuario::create([
             'Nombre' => $request->Nombre,
@@ -81,21 +84,50 @@ class UsuarioController extends Controller
     public function show(int $id_usuario)
     {
         $BusquedaUsuario = Usuario::find($id_usuario);
-        if ($BusquedaUsuario) {
-            $BusquedaUsuario->ID_Permiso = $BusquedaUsuario->Permiso;
-            $BusquedaUsuario->ID_Tipo_Usuario = $BusquedaUsuario->Tipo_Usuario;
-            $this->extracted($BusquedaUsuario);
-            return $this;
-        }
         return $BusquedaUsuario;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        // $request->validate([
+        //     'ID_Usuario' => ['required', 'max:5'],
+        //     'Nombre' => ['required', 'max:50'],
+        //     'Ap_Paterno' => ['required', 'max:50'],
+        //     'Ap_Materno' => ['max:50'],
+        //     'ID_Tipo_Usuario' => ['required'],
+        //     'Permiso.Inicio_Ingreso' => ['required', 'date'],
+        //     'Permiso.Fin_Ingreso' => ['required', 'date'],
+        //     'Telefono' => ['unique:usuario,Telefono', 'max:15'],
+        //     'Email' => ['unique:usuario,Email', 'max:50', 'email'],
+        //     'Estatus' => ['required', 'max:1'],
+        // ]);
+
+        $BusquedaUsuario = $this->show($request->ID_Usuario);
+        if ($BusquedaUsuario) {
+
+            //Actualizar permiso
+            $PermisoRequest = $request->Permiso;
+            $Permiso = new PermisoController();
+            $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
+            $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
+            $Permiso->update($Permiso, $BusquedaUsuario->ID_Permiso);
+
+            //Actualizar Usuario
+            $BusquedaUsuario->Nombre = $request->Nombre;
+            $BusquedaUsuario->Ap_Paterno = $request->Ap_Paterno;
+            $BusquedaUsuario->Ap_Materno = $request->Ap_Materno;
+            $BusquedaUsuario->ID_Tipo_Usuario = $request->ID_Tipo_Usuario;
+            $BusquedaUsuario->Telefono = $request->Telefono;
+            $BusquedaUsuario->Email = $request->Email;
+            $BusquedaUsuario->Estatus = $request->Estatus;
+            $BusquedaUsuario->save();
+
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -133,6 +165,7 @@ class UsuarioController extends Controller
             return false;
         }
 
+        //Se verifica que el permiso sea valido
         $Permiso = new PermisoController();
         $IniciaIngreso = $this->ID_Permiso->Inicio_Ingreso;
         $FinIngreso = $this->ID_Permiso->Fin_Ingreso;
