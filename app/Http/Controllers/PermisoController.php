@@ -18,7 +18,14 @@ class PermisoController extends Controller
      */
     public function index()
     {
-        return Permiso::all();
+        $Permisos = array();
+        $BusquedaPermiso = Permiso::all();
+        foreach ($BusquedaPermiso as $Permiso) {
+            $this->ModeltoObject($Permiso);
+            $Permisos[] = $this->getPermiso();
+        }
+
+        return $Permisos;
     }
 
     /**
@@ -37,10 +44,7 @@ class PermisoController extends Controller
     public function latestPermiso(): static
     {
         $PermisoInsertado = Permiso::latest('ID_Permiso')->first();
-        $this->ID_Permiso = $PermisoInsertado->ID_Permiso;
-        $this->Inicio_Ingreso = $PermisoInsertado->Inicio_Ingreso;
-        $this->Fin_Ingreso = $PermisoInsertado->Fin_Ingreso;
-        $this->Estatus = $PermisoInsertado->Estatus;
+        $this->ModeltoObject($PermisoInsertado);
 
         return $this;
     }
@@ -48,10 +52,13 @@ class PermisoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id_permiso)
     {
-        $BusquedaPermiso = Permiso::find($id);
-        return $BusquedaPermiso;
+        $BusquedaPermiso = Permiso::find($id_permiso);
+        if ($BusquedaPermiso) {
+            return $BusquedaPermiso;
+        }
+        return false;
     }
 
     /**
@@ -77,8 +84,27 @@ class PermisoController extends Controller
         //
     }
 
+    private function getPermiso(): PermisoController
+    {
+        $Permiso = new PermisoController();
+        $Permiso->ID_Permiso = $this->ID_Permiso;
+        $Permiso->Inicio_Ingreso = $this->Inicio_Ingreso;
+        $Permiso->Fin_Ingreso = $this->Fin_Ingreso;
+        $Permiso->Estatus = $this->Estatus;
 
-    public function RevisarHoyEnPermiso(PermisoController $Permiso)
+        return $Permiso;
+    }
+
+    public function ModeltoObject($ModelPermiso): void
+    {
+        $this->ID_Permiso = $ModelPermiso->ID_Permiso;
+        $this->Inicio_Ingreso = $ModelPermiso->Inicio_Ingreso;
+        $this->Fin_Ingreso = $ModelPermiso->Fin_Ingreso;
+        $this->Estatus = $ModelPermiso->Estatus;
+    }
+
+
+    public function RevisarHoyEnPermiso(PermisoController $Permiso): bool
     {
         $Hoy = Carbon::now();
         $IniciaIngreso = Carbon::parse($Permiso->Inicio_Ingreso);
