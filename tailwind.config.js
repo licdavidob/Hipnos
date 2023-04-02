@@ -15,11 +15,11 @@ module.exports = {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
         },
-        colors: {
-            ipn: {
-                DEFAULT: "#6C1D45",
-            },
-        },
+        // colors: {
+        //     ipn: {
+        //         DEFAULT: "#6C1D45",
+        //     },
+        // },
     },
 
     plugins: [

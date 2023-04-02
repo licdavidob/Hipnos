@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\PermisoController;
 use App\Models\Permiso;
@@ -38,7 +39,7 @@ class UsuarioController extends Controller
      * @param Request $request
      * @return $this
      */
-    public function store(Request $request): static
+    public function store(Request $request)
     {
         $request->validate([
             'Nombre' => ['required', 'max:50'],
@@ -67,7 +68,13 @@ class UsuarioController extends Controller
             'Email' => $request->Email,
         ]);
 
-        return $this;
+        $Usuario = $this->latestUsuario()->getUsuario();
+        $QR = new GenerarQR();
+        $QR->CrearbyID($Usuario->ID_Usuario);
+        $QR->NombreQR($Usuario);
+
+        $path = 'qrcodes/' . $QR->Nombre . '.svg';
+        Storage::disk('local')->put($path, $QR->ImagenSVG);
     }
 
     public function latestUsuario(): static
