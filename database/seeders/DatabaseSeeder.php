@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             MarcaSeeder::class,
             ModeloSeeder::class,
             TipoUsuarioSeeder::class,
+            TipoEstacionamientoSeeder::class,
+            EstacionamientoSeeder::class,
         ]);
     }
 }

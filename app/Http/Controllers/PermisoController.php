@@ -64,12 +64,12 @@ class PermisoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PermisoController $PermisoActualizado, int $idPermiso)
+    public function update(int $idPermiso)
     {
         $BusquedaPermiso = $this->show($idPermiso);
         if ($BusquedaPermiso) {
-            $BusquedaPermiso->Inicio_Ingreso = $PermisoActualizado->Inicio_Ingreso;
-            $BusquedaPermiso->Fin_Ingreso = $PermisoActualizado->Fin_Ingreso;
+            $BusquedaPermiso->Inicio_Ingreso = $this->Inicio_Ingreso;
+            $BusquedaPermiso->Fin_Ingreso = $this->Fin_Ingreso;
             $BusquedaPermiso->save();
             return true;
         }
@@ -95,7 +95,7 @@ class PermisoController extends Controller
         return $Permiso;
     }
 
-    public function ModeltoObject($ModelPermiso): void
+    public function modelToObject($ModelPermiso): void
     {
         $this->ID_Permiso = $ModelPermiso->ID_Permiso;
         $this->Inicio_Ingreso = $ModelPermiso->Inicio_Ingreso;
@@ -104,16 +104,17 @@ class PermisoController extends Controller
     }
 
 
-    public function RevisarHoyEnPermiso(PermisoController $Permiso): bool
+    public function reviewToday(): bool
     {
         $Hoy = Carbon::now();
-        $IniciaIngreso = Carbon::parse($Permiso->Inicio_Ingreso);
-        $FinIngreso = Carbon::parse($Permiso->Fin_Ingreso);
+        $IniciaIngreso = Carbon::parse($this->Inicio_Ingreso);
+        $FinIngreso = Carbon::parse($this->Fin_Ingreso);
 
         $IniciaIngreso = strtotime($IniciaIngreso);
         $FinIngreso = strtotime($FinIngreso);
         $Hoy = strtotime($Hoy->toDateString());
 
+        //Se valida que el dia actual se encuentre dentro del permiso
         if (($Hoy >= $IniciaIngreso) && ($Hoy <= $FinIngreso)) {
             return true;
         } else {

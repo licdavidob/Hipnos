@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -17,9 +18,10 @@ class UsuarioController extends Controller
     public string $Ap_Materno;
     public object $Tipo_Usuario;
     public object $Permiso;
-    public string $Telefono;
-    public string $Email;
-    public bool $Estatus;
+    public ?string $Telefono;
+    public ?string $Email;
+    public ?object $QR;
+    public int $Estatus;
 
 
     public function index()
@@ -31,13 +33,13 @@ class UsuarioController extends Controller
             $Usuarios[] = $this->getUsuario();
         }
 
-        return view('Usuario', compact('Usuarios'));
+        return view('Usuarios', compact('Usuarios'));
     }
 
 
     /**
      * @param Request $request
-     * @return $this
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
@@ -48,8 +50,8 @@ class UsuarioController extends Controller
             'ID_Tipo_Usuario' => ['required'],
             'Permiso.Inicio_Ingreso' => ['required', 'date'],
             'Permiso.Fin_Ingreso' => ['required', 'date'],
-            'Telefono' => ['unique:usuario,Telefono', 'max:15'],
-            'Email' => ['unique:usuario,Email', 'max:50', 'email'],
+            'Telefono' => ['unique:usuario,Telefono', 'max:15', 'nullable'],
+            'Email' => ['unique:usuario,Email', 'max:50', 'nullable', 'email',],
         ]);
 
         $PermisoRequest = $request->Permiso;
@@ -70,60 +72,42 @@ class UsuarioController extends Controller
 
         $Usuario = $this->latestUsuario()->getUsuario();
         $QR = new GenerarQR();
-        $QR->CrearbyID($Usuario->ID_Usuario);
-        $QR->NombreQR($Usuario);
+        $QR->store($Usuario);
 
-        $path = 'qrcodes/' . $QR->Nombre . '.svg';
-        Storage::disk('local')->put($path, $QR->ImagenSVG);
+        return redirect()->route('Usuario.index');
     }
 
-    public function latestUsuario(): static
+
+    public function show($id_usuario)
     {
-        $UsuarioInsertado = Usuario::latest('ID_Usuario')->first();
-        $this->ModeltoObject($UsuarioInsertado);
+        $BusquedaUsuario = $this->usuarioById($id_usuario);
+        $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
+        $QR = new GenerarQR();
+        $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
+        $Usuario->QR = $QR;
 
-        return $this;
+        return view('Usuario', compact('Usuario'));
     }
 
-
-    /**
-     * @param int $id_usuario
-     * @return false
-     */
-    public function show(int $id_usuario): mixed
-    {
-        $BusquedaUsuario = Usuario::find($id_usuario);
-        if ($BusquedaUsuario) {
-            return $BusquedaUsuario;
-        }
-        return false;
-    }
-
-
-    /**
-     * @param Request $request
-     * @return bool
-     */
-    public function update(Request $request): bool
+    public function update(Request $request, $id_usuario)
     {
         $request->validate([
-            'ID_Usuario' => ['required', 'max:5'],
             'Nombre' => ['required', 'max:50'],
             'Ap_Paterno' => ['required', 'max:50'],
             'Ap_Materno' => ['max:50'],
             'ID_Tipo_Usuario' => ['required'],
             'Permiso.Inicio_Ingreso' => ['required', 'date'],
             'Permiso.Fin_Ingreso' => ['required', 'date'],
-
             //Permite actualizar un usuario con email y telefono unico
             //Tercer parametro: ID usuario
             //Cuarto parametro: Llave primaria
-            'Telefono' => ['unique:usuario,Telefono,' . $request->input('ID_Usuario') . ',ID_Usuario', 'max:15'],
-            'Email' => ['unique:usuario,Email,' . $request->input('ID_Usuario') . ',ID_Usuario', 'max:50', 'email'],
+            'Telefono' => ['unique:usuario,Telefono,' . $id_usuario . ',ID_Usuario', 'max:15', 'nullable'],
+            'Email' => ['unique:usuario,Email,' . $id_usuario . ',ID_Usuario', 'max:50', 'nullable', 'email'],
             'Estatus' => ['required', 'max:1'],
         ]);
 
-        $BusquedaUsuario = $this->show($request->ID_Usuario);
+        $BusquedaUsuario = $this->usuarioById($id_usuario);
+
         if ($BusquedaUsuario) {
 
             //Actualizar permiso
@@ -131,7 +115,7 @@ class UsuarioController extends Controller
             $Permiso = new PermisoController();
             $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
             $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
-            $Permiso->update($Permiso, $BusquedaUsuario->ID_Permiso);
+            $Permiso->update($BusquedaUsuario->ID_Permiso);
 
             //Actualizar Usuario
             $BusquedaUsuario->Nombre = $request->Nombre;
@@ -148,14 +132,33 @@ class UsuarioController extends Controller
         return false;
     }
 
-
-    /**
-     * @param string $id
-     * @return void
-     */
+    //TODO: Desarrollar el destroy, sirve para desaparecer de la tabla de usuarios
     public function destroy(string $id): void
     {
         //
+    }
+
+    public function latestUsuario(): static
+    {
+        $UsuarioInsertado = Usuario::latest('ID_Usuario')->first();
+        $this->ModeltoObject($UsuarioInsertado);
+
+        return $this;
+    }
+
+    public function usuarioById($id_usuario, $error404 = true)
+    {
+        $Busqueda = Usuario::find($id_usuario);
+
+        if ($Busqueda) {
+            return $Busqueda;
+        }
+
+        if ($error404) {
+            return abort(404);
+        }
+
+        return false;
     }
 
     /**
@@ -172,16 +175,13 @@ class UsuarioController extends Controller
         $Usuario->Permiso = $this->Permiso;
         $Usuario->Telefono = $this->Telefono;
         $Usuario->Email = $this->Email;
+        $Usuario->QR = $this->QR;
         $Usuario->Estatus = $this->Estatus;
 
         return $Usuario;
     }
 
-    /**
-     * @param $ModelUsuario
-     * @return void
-     */
-    public function ModeltoObject($ModelUsuario): void
+    public function modelToObject($ModelUsuario)
     {
         $this->ID_Usuario = $ModelUsuario->ID_Usuario;
         $this->Nombre = $ModelUsuario->Nombre;
@@ -191,38 +191,9 @@ class UsuarioController extends Controller
         $this->Permiso = $ModelUsuario->Permiso;
         $this->Telefono = $ModelUsuario->Telefono;
         $this->Email = $ModelUsuario->Email;
+        $this->QR = $ModelUsuario->CodigoQR;
         $this->Estatus = $ModelUsuario->Estatus;
-    }
 
-
-    /**
-     * @param int $id_usuario
-     * @return bool
-     */
-    public function AccessParking(int $id_usuario): bool
-    {
-        //Se valida que el usuario exista
-        $BusquedaUsuario = $this->show($id_usuario);
-        if (!$BusquedaUsuario) {
-            return false;
-        }
-
-        //Se transforma el modelo usuario a objeto
-        $this->ModeltoObject($BusquedaUsuario);
-
-        //Se valida que el usuario sea activo
-        if (!$this->Estatus) {
-            return false;
-        }
-
-        //Se verifica que el permiso sea valido
-        $Permiso = new PermisoController();
-        $Permiso->Inicio_Ingreso = $this->Permiso->Inicio_Ingreso;
-        $Permiso->Fin_Ingreso = $this->Permiso->Fin_Ingreso;
-        if (!$Permiso->RevisarHoyEnPermiso($Permiso)) {
-            return false;
-        }
-
-        return true;
+        return $this;
     }
 }

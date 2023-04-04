@@ -15,10 +15,10 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->id('ID_CodigoQR');
             $table->char('Nombre',50);
-            $table->char('Ruta',100);
             $table->char('Tipo',10);
-            $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
+            $table->char('Ruta',100);
             $table->timestamps();
+            $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
         });
     }
 
