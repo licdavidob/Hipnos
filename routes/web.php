@@ -13,11 +13,7 @@ use App\Http\Controllers\UsuarioController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::post('/Usuario', [UsuarioController::class, 'store']);
-Route::get('/Usuario', [UsuarioController::class, 'index'])->name('Usuario');
-Route::put('/Usuario', [UsuarioController::class, 'update']);
-
+Route::apiResource('/Usuario', UsuarioController::class);
 
 Route::middleware([
     'auth:sanctum',

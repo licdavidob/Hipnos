@@ -21,7 +21,7 @@ class TipoUsuarioSeeder extends Seeder
             'Tipo_Usuario' => 'Docente',
         ]);
         Tipo_Usuario::create([
-            'Tipo_Usuario' => 'Invitado',
+            'Tipo_Usuario' => 'Mixto',
         ]);
     }
 }
