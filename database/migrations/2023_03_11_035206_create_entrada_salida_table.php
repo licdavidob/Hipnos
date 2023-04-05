@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('entrada_salida', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('ID_Entrada_Salida');
-            $table->date('Fecha_Ingreso');
-            $table->date('Fecha_Egreso');
+            $table->timestamp('Fecha_Ingreso')->nullable();
+            $table->timestamp('Fecha_Egreso')->nullable();
             $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
             $table->timestamps();
         });

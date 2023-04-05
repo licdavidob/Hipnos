@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\EstacionamientoController;
+use App\Models\Entrada_Salida;
+use Carbon\Carbon;
 
 class ParkingController extends Controller
 {
@@ -25,6 +27,7 @@ class ParkingController extends Controller
 
         //Se valida que el usuario exista
         if (!$BusquedaUsuario) {
+
             return false;
         }
 
@@ -42,14 +45,14 @@ class ParkingController extends Controller
         }
 
         //Se valida que el tipo de usuario pueda acceder al estacionamiento
-        if (!$this->accessEstacionamientoTypeByUsuarioType($HashEstacionamiento, $BusquedaUsuario->Tipo_Usuario->Tipo_Usuario)) {
+        if (!$this->accessEstacionamientoByUsuarioType($HashEstacionamiento, $BusquedaUsuario->Tipo_Usuario->Tipo_Usuario)) {
             return false;
         }
 
         return true;
     }
 
-    public function accessEstacionamientoTypeByUsuarioType($HashEstacionamiento, $TipoUsuario)
+    public function accessEstacionamientoByUsuarioType($HashEstacionamiento, $TipoUsuario)
     {
         //Se valida que exista estacionamiento
         $Estacionamiento = new EstacionamientoController();
@@ -73,6 +76,36 @@ class ParkingController extends Controller
         if (!in_array($TipoUsuario, $this->AccessParking[$Estacionamiento->TipoEstacionamiento])) {
             return false;
         }
+
+        return true;
+    }
+
+    public function registrarIngresoEgreso($IdUsuario)
+    {
+        $Busqueda = Entrada_Salida::where('ID_Usuario', $IdUsuario)->where('Fecha_Egreso', null)->first();
+        if (!$Busqueda) {
+            $this->registrarIngreso($IdUsuario);
+        } else {
+            $this->registrarEgreso($Busqueda);
+        }
+
+        return true;
+    }
+
+    public function registrarIngreso($IdUsuario)
+    {
+        Entrada_Salida::create([
+            'ID_Usuario' => $IdUsuario,
+            'Fecha_Ingreso' => Carbon::now(),
+        ]);
+
+        return true;
+    }
+
+    public function registrarEgreso($Usuario)
+    {
+        $Usuario->Fecha_Egreso = Carbon::now();
+        $Usuario->save();
 
         return true;
     }

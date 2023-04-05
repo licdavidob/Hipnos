@@ -27,13 +27,20 @@ class UsuarioController extends Controller
     public function index()
     {
         $Usuarios = array();
+        $Estadistica = array(
+            "Alumno" => 0,
+            "Docente" => 0,
+            "Mixto" => 0,
+        );
+
         $BusquedaUsuarios = Usuario::all();
         foreach ($BusquedaUsuarios as $Usuario) {
             $this->ModeltoObject($Usuario);
             $Usuarios[] = $this->getUsuario();
+            $Estadistica[$this->Tipo_Usuario->Tipo_Usuario]++;
         }
 
-        return view('Usuarios', compact('Usuarios'));
+        return view('Usuarios', compact('Usuarios', 'Estadistica'));
     }
 
 

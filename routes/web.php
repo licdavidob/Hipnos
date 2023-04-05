@@ -13,6 +13,7 @@ use App\Http\Controllers\UsuarioController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::apiResource('/Usuario', UsuarioController::class);
 
 Route::middleware([
