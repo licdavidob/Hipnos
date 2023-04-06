@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\PermisoController;
-use App\Models\Permiso;
+use App\Http\Controllers\CorreoControler;
+
 use App\Models\Usuario;
 
 class UsuarioController extends Controller
@@ -80,6 +79,12 @@ class UsuarioController extends Controller
         $Usuario = $this->latestUsuario()->getUsuario();
         $QR = new GenerarQR();
         $QR->store($Usuario);
+
+        if ($Usuario->Email) {
+            $Usuario->QR = $QR;
+            $Correo = new CorreoControler();
+            $Correo->EnviarQR($Usuario);
+        }
 
         return redirect()->route('Usuario.index');
     }

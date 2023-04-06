@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CodigoQR;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Stmt\Return_;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class GenerarQR extends Controller
@@ -17,7 +16,7 @@ class GenerarQR extends Controller
     public ?string $Imagen;
     public int $Estatus;
 
-    public function __construct($Tipo = '.svg')
+    public function __construct($Tipo = 'svg')
     {
         $this->Tipo = $Tipo;
     }
@@ -39,16 +38,18 @@ class GenerarQR extends Controller
             'Ruta' => $this->Ruta,
             'Tipo' => $this->Tipo,
         ]);
+
+        return $this;
     }
 
     public function generateByUsuarioId($ID_Usuario)
     {
-        return QrCode::generate($ID_Usuario);
+        return QrCode::format($this->Tipo)->generate($ID_Usuario);
     }
 
     public function nameQR(UsuarioController $Usuario)
     {
-        return "$Usuario->Nombre" . "_" . "$Usuario->Ap_Paterno" . "_" . "$Usuario->Ap_Materno" . "_" . "$Usuario->ID_Usuario";
+        return "$Usuario->Nombre" . "_" . "$Usuario->Ap_Paterno" . "_" . "$Usuario->Ap_Materno" . "_" . "$Usuario->ID_Usuario" . ".";
     }
 
     public function existsQR()

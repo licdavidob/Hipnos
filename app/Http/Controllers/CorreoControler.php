@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\OAuth;
 use League\OAuth2\Client\Provider\Google;
+
+use App\Http\Controllers\PlantillaControler;
 
 class CorreoControler extends Controller
 {
@@ -60,8 +61,9 @@ class CorreoControler extends Controller
         return $this;
     }
 
-    public function Correo($Usuario)
+    public function EnviarQR($Usuario)
     {
+        $Plantilla = new PlantillaControler();
         $mail = $this->mail;
         try {
 
@@ -77,17 +79,16 @@ class CorreoControler extends Controller
 
             //Recipients
             $mail->setFrom($mail->Username, 'AccesoUPIICSA');
-            $mail->addAddress("licdavidob@gmail.com");
+            $mail->addAddress($Usuario->Email);
             // $mail->addBCC($mail->Username);
 
 
             //Se define la plantilla que voy a utilizar en el método "Nuevo_Usuario"
-            // $this->Nuevo_Usuario($Usuario);
-            // $mail->isHTML(true);
-            $mail->Subject = 'Bienvenido al sistema CONATRIB';
+            $mail->isHTML(true);
+            $mail->Subject = 'Bienvenido a AccesoUPIICSA';
 
             //Se inserta en el cuerpo la plantilla cargada anteriormente
-            $mail->Body    = "Enviando código QR";
+            $mail->Body    = $Plantilla->NotificacionQR($Usuario);
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             $mail->send();
