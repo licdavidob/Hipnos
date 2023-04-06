@@ -42,6 +42,10 @@ class UsuarioController extends Controller
         return view('Usuarios', compact('Usuarios', 'Estadistica'));
     }
 
+    public function create() 
+    {
+        return view('Create');
+    }
 
     /**
      * @param Request $request
