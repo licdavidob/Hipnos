@@ -17,17 +17,27 @@ module.exports = {
             backgroundColor: theme => ({
                 ...theme('colors'),
                 'ipn': '#75003E',
+                'ipn-dark': '#400022',
                 'inputField': '#DEDEDE',
+                // Table headers
+                'ipn-1': '#690038',
+                'ipn-2': '#5F0032',
+                'ipn-3': '#52002B',
+                'ipn-4': '#3C0020',
+                'ipn-5': '#250014',
             }),
             backgroundImage: {
                 'login': "url('/public/img/main.png')",
-                // 'main': "url('/public/img/bg-main.png')",
+                'loginV': "url('/public/img/mainV.png')",
+                'testing': "url('/public/img/mainVer.png')",
             },
             textColor: {
                 'ipn': '#75003E',
+                'ipn-dark': '#400022',
             },
             borderColor: {
                 'ipn': '#75003E',
+                'ipn-dark': '#400022',
                 'inputField': '#DEDEDE',
             },
         },

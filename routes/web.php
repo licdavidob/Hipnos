@@ -14,10 +14,13 @@ use App\Http\Controllers\UsuarioController;
 |
 */
 
-Route::get('/', function () {
-    return "Holi";
-});
+// Route::get('/', function () {
+//     return "Holi";
+// });
 // })->middleware('auth:sanctum');
+
+Route::get('/', [UsuarioController::class, 'index'])->middleware(['auth:sanctum'])->name('dashboard');
+Route::get('/create', [UsuarioController::class, 'create'])->middleware(['auth:sanctum'])->name('crear');
 
 Route::apiResource('/Usuario', UsuarioController::class);
 

@@ -20,8 +20,15 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+        <div class="min-h-screen bg-bottom bg-cover bg-loginV">
+        {{-- <div class="min-h-screen bg-cover bg-testing"> --}}
+            <form method="POST" action="{{ route('logout') }}" x-data>
+                @csrf
+                <div class="flex justify-end py-2 mx-20">
+                    <p class="p-1 px-2 text-sm font-medium text-white uppercase rounded-l-md bg-ipn">{{ Auth::user()->name }}</p>
+                    <button class="px-2 text-sm font-medium text-white rounded-r-md bg-ipn-dark">SALIR</button>
+                </div>
+            </form>
 
             <!-- Page Heading -->
             @if (isset($header))

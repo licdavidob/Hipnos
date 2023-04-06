@@ -16,7 +16,7 @@
                                 <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="search" name="user" id="user" value="{{ old('user') }}" class="w-full py-3 pl-12 border-none rounded-md bg-inputField text-ipn placeholder:text-ipn placeholder:font-bold focus:ring-transparent" placeholder="Usuario" required>
+                        <input type="search" name="email" id="email" value="{{ old('email') }}" class="w-full py-3 pl-12 border-none rounded-md bg-inputField text-ipn placeholder:text-ipn placeholder:font-bold focus:ring-transparent" placeholder="Usuario" required>
                     </div>
 
                     <div class="relative mb-6">
