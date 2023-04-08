@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('usuario', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('ID_Usuario');
-            $table->char('Nombre',50);
-            $table->char('Ap_Paterno',50);
-            $table->char('Ap_Materno',50)->nullable();
-            $table->char('Telefono',15)->unique()->nullable();
-            $table->string('Email',50)->unique()->nullable();
+            $table->char('Nombre', 50);
+            $table->char('Ap_Paterno', 50);
+            $table->char('Ap_Materno', 50)->nullable();
+            $table->char('Telefono', 15)->unique()->nullable();
+            $table->string('Email', 50)->unique()->nullable();
             $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
+            $table->tinyInteger('Visible')->default(1)->comment('1 = Visible / 0 = Invisible');
             $table->timestamps();
         });
     }

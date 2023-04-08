@@ -32,7 +32,7 @@ class UsuarioController extends Controller
             "Mixto" => 0,
         );
 
-        $BusquedaUsuarios = Usuario::all();
+        $BusquedaUsuarios = Usuario::where('Visible', 1)->get();
         foreach ($BusquedaUsuarios as $Usuario) {
             $this->ModeltoObject($Usuario);
             $Usuarios[] = $this->getUsuario();
@@ -42,7 +42,7 @@ class UsuarioController extends Controller
         return view('Usuarios', compact('Usuarios', 'Estadistica'));
     }
 
-    public function create() 
+    public function create()
     {
         return view('create');
     }
@@ -152,10 +152,13 @@ class UsuarioController extends Controller
         return false;
     }
 
-    //TODO: Desarrollar el destroy, sirve para desaparecer de la tabla de usuarios
-    public function destroy(string $id): void
+
+    public function destroy(string $id)
     {
-        //
+        $Busqueda = $this->usuarioById($id);
+        $Busqueda->Visible = 0;
+        $Busqueda->save();
+        return redirect()->route('Usuario.index');
     }
 
     public function latestUsuario(): static
