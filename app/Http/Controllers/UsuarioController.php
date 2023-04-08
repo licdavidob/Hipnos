@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PermisoController;
 use App\Http\Controllers\CorreoControler;
+use App\Http\Controllers\WhatsappController;
 
 use App\Models\Usuario;
 
@@ -87,6 +88,12 @@ class UsuarioController extends Controller
         $Usuario = $this->latestUsuario()->getUsuario();
         $QR = new GenerarQR();
         $QR->store($Usuario);
+
+
+        if ($Usuario->Telefono) {
+            $Whatsapp = new WhatsappController();
+            $Whatsapp->EnviarQR($Usuario);
+        }
 
         if ($Usuario->Email) {
             $Usuario->QR = $QR;

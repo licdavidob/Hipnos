@@ -16,7 +16,7 @@ class GenerarQR extends Controller
     public ?string $Imagen;
     public int $Estatus;
 
-    public function __construct($Tipo = 'svg')
+    public function __construct($Tipo = 'png')
     {
         $this->Tipo = $Tipo;
     }
@@ -44,7 +44,7 @@ class GenerarQR extends Controller
 
     public function generateByUsuarioId($ID_Usuario)
     {
-        return QrCode::format($this->Tipo)->generate($ID_Usuario);
+        return QrCode::format($this->Tipo)->size(1000)->generate($ID_Usuario);
     }
 
     public function nameQR(UsuarioController $Usuario)
