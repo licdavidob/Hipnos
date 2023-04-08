@@ -2,7 +2,7 @@
     <div class="p-10 m-5">
         <div class="shadow-md backdrop-blur-sm shadow-gray-400">
             <div class="relative flex justify-end w-full -right-5">
-                <p class="px-16 py-1 my-4 text-lg text-white rounded-l-lg bg-ipn">Nuevo Usuario</p>
+                <p class="px-16 py-1 my-4 text-lg text-white rounded-l-lg bg-ipn">Editar Usuario</p>
             </div>
             <div class="px-5">
                 <form action="{{ route('guardar') }}" class="flex flex-col items-center justify-center w-full py-10 justify-items-center" method="POST">

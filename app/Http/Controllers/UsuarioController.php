@@ -44,7 +44,11 @@ class UsuarioController extends Controller
 
     public function create() 
     {
-        return view('Create');
+        return view('create');
+    }
+    public function edit($id_usuario)
+    {
+        return view('editar');
     }
 
     /**

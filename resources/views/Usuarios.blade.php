@@ -43,8 +43,22 @@
                                 <td>13/03/2023 17:50 p. m.</td>
                                 <td>1</td>
                                 <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <p>Editar</p>
-                                    <p>Borrar</p>
+                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
+                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
+                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <form action="{{ route('borrar',1) }}" method="POST" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <img src="/img/deleteW.png" alt="borrar">
+                                            </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr class="bg-transparent border-b-2 border-dashed border-ipn">
@@ -54,8 +68,22 @@
                                 <td>13/03/2023 17:50 p. m.</td>
                                 <td>0</td>
                                 <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <p>Editar</p>
-                                    <p>Borrar</p>
+                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
+                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
+                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <form action="{{ route('borrar',1) }}" method="POST" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <img src="/img/deleteW.png" alt="borrar">
+                                            </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr class="bg-transparent border-b-2 border-dashed border-ipn">
@@ -65,8 +93,22 @@
                                 <td>13/03/2023 17:50 p. m.</td>
                                 <td>1</td>
                                 <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <p>Editar</p>
-                                    <p>Borrar</p>
+                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
+                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
+                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <form action="{{ route('borrar',1) }}" method="POST" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <img src="/img/deleteW.png" alt="borrar">
+                                            </button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>

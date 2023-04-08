@@ -20,8 +20,10 @@ use App\Http\Controllers\UsuarioController;
 // })->middleware('auth:sanctum');
 
 Route::get('/', [UsuarioController::class, 'index'])->middleware(['auth:sanctum'])->name('dashboard');
-Route::get('/create', [UsuarioController::class, 'create'])->middleware(['auth:sanctum'])->name('crear');
-
+Route::post('/', [UsuarioController::class, 'store'])->middleware(['auth:sanctum'])->name('guardar');
+Route::get('create', [UsuarioController::class, 'create'])->middleware(['auth:sanctum'])->name('crear');
+Route::get('editar/{usuario}', [UsuarioController::class, 'edit'])->middleware(['auth:sanctum'])->name('editar');
+Route::delete('eliminar/{usuario}', [UsuarioController::class, 'destroy'])->middleware('auth:sanctum')->name('borrar');
 Route::apiResource('/Usuario', UsuarioController::class);
 
 // Route::middleware([
