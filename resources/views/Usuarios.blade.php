@@ -35,7 +35,7 @@
                                 <th class="bg-ipn-5">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        {{-- <tbody class="text-center">
                             <tr class="bg-transparent border-b-2 border-dashed border-ipn">
                                 <td class="py-6">David Olvera Baeza</td>
                                 <td>Alumno</td>
@@ -111,6 +111,35 @@
                                     </div>
                                 </td>
                             </tr>
+                        </tbody> --}}
+                        <tbody class="text-center">
+                            @foreach ($Usuarios as $Usuario)
+                            <tr class="bg-transparent border-b-2 border-dashed border-ipn">
+                                <td class="py-6">{{ $Usuario->Nombre." ".$Usuario->Ap_Paterno." ".$Usuario->Ap_Materno }}</td>
+                                <td>{{ $Usuario->Tipo_Usuario->Tipo_Usuario }}</td>
+                                <td>{{  $Usuario->Permiso->Inicio_Ingreso  }}</td>
+                                <td>{{ $Usuario->Permiso->Fin_Ingreso }}</td>
+                                <td>{{ $Usuario->Estatus }}</td>
+                                <td class="flex items-center py-6 space-x-2 justify-evenly">
+                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
+                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <a href="{{ route('editar', $usuarios) }}"><img src="/img/editW.png" alt="edit"></a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
+                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
+                                            <form action="{{ route('borrar',$usuarios) }}" method="POST" >
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit">
+                                                <img src="/img/deleteW.png" alt="borrar">
+                                            </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
             
                         {{-- @foreach ($Usuarios as $Usuario)

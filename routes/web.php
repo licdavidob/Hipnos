@@ -23,6 +23,7 @@ Route::get('/', [UsuarioController::class, 'index'])->middleware(['auth:sanctum'
 Route::post('/', [UsuarioController::class, 'store'])->middleware(['auth:sanctum'])->name('guardar');
 Route::get('create', [UsuarioController::class, 'create'])->middleware(['auth:sanctum'])->name('crear');
 Route::get('editar/{usuario}', [UsuarioController::class, 'edit'])->middleware(['auth:sanctum'])->name('editar');
+Route::put('actualizar/{usuario}', [UsuarioController::class, 'update'])->middleware(['auth:sanctum'])->name('actualizar');
 Route::delete('eliminar/{usuario}', [UsuarioController::class, 'destroy'])->middleware('auth:sanctum')->name('borrar');
 Route::apiResource('/Usuario', UsuarioController::class);
 
