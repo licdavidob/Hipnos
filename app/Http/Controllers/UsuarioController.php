@@ -49,13 +49,13 @@ class UsuarioController extends Controller
     }
     public function edit($id_usuario)
     {
-        
+
         $BusquedaUsuario = $this->usuarioById($id_usuario);
         $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
         $QR = new GenerarQR();
         $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
         $Usuario->QR = $QR;
-        // return view('editar');
+
         return view('editar', compact('Usuario'));
     }
 

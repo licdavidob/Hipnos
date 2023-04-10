@@ -12,7 +12,6 @@ class GenerarQR extends Controller
     public int $ID_Usuario;
     public string $Nombre;
     public string $Ruta_Local;
-    public string $Dominio_Publico = 'http://accesoupiicsa.alwaysdata.net/';
     public string $Ruta_Publica;
     public string $Tipo;
     public ?string $Imagen;
@@ -25,11 +24,12 @@ class GenerarQR extends Controller
 
     public function store(UsuarioController $Usuario)
     {
+        $Dominio_Publico = env('FTP_FILES');
         $this->ID_Usuario = $Usuario->ID_Usuario;
         $this->Imagen = $this->generateByUsuarioId($this->ID_Usuario);
         $this->Nombre = $this->nameQR($Usuario);
         $this->Ruta_Local = 'qrcodes/' . $this->Nombre . $this->Tipo;
-        $this->Ruta_Publica = $this->Dominio_Publico . $this->Ruta_Local;
+        $this->Ruta_Publica = $Dominio_Publico . $this->Ruta_Local;
         //Se almacena la imagen
         Storage::disk('public')->put($this->Ruta_Local, $this->Imagen);
         Storage::disk('ftp')->put($this->Ruta_Local, $this->Imagen);
