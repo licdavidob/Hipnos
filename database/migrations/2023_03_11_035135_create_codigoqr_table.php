@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('codigoqr', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->id('ID_CodigoQR');
-            $table->char('Nombre',50);
-            $table->char('Tipo',10);
-            $table->char('Ruta',100);
+            $table->char('Nombre', 50);
+            $table->char('Tipo', 10);
+            $table->char('Ruta_Local', 100);
+            $table->string('Ruta_Publica', 255);
             $table->timestamps();
             $table->tinyInteger('Estatus')->default(1)->comment('1 = Activo / 0 = Inactivo');
         });

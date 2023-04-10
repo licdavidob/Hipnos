@@ -88,7 +88,7 @@ class UsuarioController extends Controller
         $Usuario = $this->latestUsuario()->getUsuario();
         $QR = new GenerarQR();
         $QR->store($Usuario);
-
+        $Usuario->QR = $QR;
 
         if ($Usuario->Telefono) {
             $Whatsapp = new WhatsappController();
@@ -96,7 +96,6 @@ class UsuarioController extends Controller
         }
 
         if ($Usuario->Email) {
-            $Usuario->QR = $QR;
             $Correo = new CorreoControler();
             $Correo->EnviarQR($Usuario);
         }
@@ -109,10 +108,9 @@ class UsuarioController extends Controller
     {
         $BusquedaUsuario = $this->usuarioById($id_usuario);
         $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
-        $QR = new GenerarQR();
-        $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
-        $Usuario->QR = $QR;
-
+        // $QR = new GenerarQR();
+        // $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
+        // $Usuario->QR = $QR;
         return view('Usuario', compact('Usuario'));
     }
 

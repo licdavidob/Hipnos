@@ -471,10 +471,7 @@
                                     " role="presentation">
                                                 <tr>
                                                     <td align="center" class="es-m-txt-c" style="padding: 0; margin: 0">
-                                                        <p>Descarga tu código QR desde el siguiente enlace:
-                                                            <a href="127.0.0.1:8000{{$Usuario->QR->Ruta}}">Click
-                                                                Aqui</a>
-                                                        </p>
+                                                        <img src="{{$Usuario->QR->Ruta_Publica}}" alt="">
                                                     </td>
                                                 </tr>
                                             </table>

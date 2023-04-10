@@ -16,7 +16,8 @@ class CodigoQR extends Model
     protected $fillable = [
         'ID_Usuario',
         'Nombre',
-        'Ruta',
+        'Ruta_Local',
+        'Ruta_Publica',
         'Tipo',
         'Estatus'
     ];

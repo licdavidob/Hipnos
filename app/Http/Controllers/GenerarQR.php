@@ -11,7 +11,9 @@ class GenerarQR extends Controller
     public int $ID_CodigoQR;
     public int $ID_Usuario;
     public string $Nombre;
-    public string $Ruta;
+    public string $Ruta_Local;
+    public string $Dominio_Publico = 'http://accesoupiicsa.alwaysdata.net/';
+    public string $Ruta_Publica;
     public string $Tipo;
     public ?string $Imagen;
     public int $Estatus;
@@ -26,16 +28,19 @@ class GenerarQR extends Controller
         $this->ID_Usuario = $Usuario->ID_Usuario;
         $this->Imagen = $this->generateByUsuarioId($this->ID_Usuario);
         $this->Nombre = $this->nameQR($Usuario);
-        $this->Ruta = 'qrcodes/' . $this->Nombre . $this->Tipo;
+        $this->Ruta_Local = 'qrcodes/' . $this->Nombre . $this->Tipo;
+        $this->Ruta_Publica = $this->Dominio_Publico . $this->Ruta_Local;
         //Se almacena la imagen
-        Storage::disk('public')->put($this->Ruta, $this->Imagen);
+        Storage::disk('public')->put($this->Ruta_Local, $this->Imagen);
+        Storage::disk('ftp')->put($this->Ruta_Local, $this->Imagen);
         //Se obtiene la URL donde se almaceno la imagen
-        $this->Ruta = Storage::url($this->Ruta);
+        $this->Ruta_Local = Storage::url($this->Ruta_Local);
 
         CodigoQR::create([
             'ID_Usuario' => $this->ID_Usuario,
             'Nombre' => $this->Nombre,
-            'Ruta' => $this->Ruta,
+            'Ruta_Local' => $this->Ruta_Local,
+            'Ruta_Publica' => $this->Ruta_Publica,
             'Tipo' => $this->Tipo,
         ]);
 
@@ -65,7 +70,8 @@ class GenerarQR extends Controller
     {
         $this->ID_CodigoQR = $ModeloQR->ID_CodigoQR;
         $this->Nombre = $ModeloQR->Nombre;
-        $this->Ruta = $ModeloQR->Ruta;
+        $this->Ruta_Local = $ModeloQR->Ruta_Local;
+        $this->Ruta_Publica = $ModeloQR->Ruta_Publica;
         $this->Tipo = $ModeloQR->Tipo;
         $this->Estatus = $ModeloQR->Estatus;
 
