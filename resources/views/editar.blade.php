@@ -6,7 +6,7 @@
             </div>
             <div class="px-5">
                 <form action="{{ route('actualizar', 1) }}" class="flex flex-col items-center justify-center w-full py-10 justify-items-center" method="POST">
-                    @dd($Usuario)
+                    {{-- @dd($Usuario) --}}
                     @method('PUT')
                     @csrf
                     {{-- Div para errores --}}
@@ -22,7 +22,9 @@
                     <div class="grid w-full grid-cols-2">
                         <div class="col-span-1">
                             <div class="flex flex-col items-center justify-center">
-                                <img src="/img/QR.png" alt="">
+                                <div class="w-60 h-60 border-8 border-white shadow-lg">
+                                    <img src="{{ $Usuario->QR->Ruta_Local }}" alt="QR code" class="w-full border-8 border-white">
+                                </div>
                                 <div class="flex justify-center">
                                     <div class="relative py-6">
                                         <div class="absolute inset-y-0 left-0 flex items-center px-2 pointer-events-none">
@@ -37,7 +39,13 @@
                                     <div class="flex items-center justify-center w-full space-x-5">
                                         <p class="text-2xl font-bold text-ipn">Estatus:</p>
                                         <div class="flex">
-                                            <input type="checkbox" id="Estatus" class="hidden peer" name="Estatus"/>
+                                            <input type="checkbox" id="Estatus" class="hidden peer" name="Estatus"
+                                            @if ($Usuario->Estatus == 1)
+                                                @checked(true)
+                                                value = {{ $Usuario->Estatus }}
+                                            @endif
+                                                value = {{ $Usuario->Estatus }}
+                                            />
                                             <label for="Estatus" class="px-6 py-3 font-bold transition-colors duration-200 ease-in-out border-2 rounded-lg cursor-pointer select-none text-ipn border-ipn peer-checked:bg-ipn-dark peer-checked:text-white peer-checked:border-ipn-dark "> Activo </label>
                                         </div>
                                     </div>
@@ -58,7 +66,7 @@
                                         name="Nombre"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Nombre"
-                                        value="{{ old('Nombre') }}"
+                                        value="{{ $Usuario->Nombre }}"
                                     />
                                 </div>
                                 <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -72,7 +80,7 @@
                                         name="Ap_Paterno"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Apellido paterno"
-                                        value="{{ old('Ap_Paterno') }}"
+                                        value="{{ $Usuario->Ap_Paterno }}"
                                     />
                                 </div>
                             </div>
@@ -89,7 +97,7 @@
                                         name="Ap_Materno"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Apellido materno"
-                                        value="{{ old('Ap_Materno') }}"
+                                        value="{{ $Usuario->Ap_Materno }}"
                                     />
                                 </div>
                                 <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -103,7 +111,9 @@
                                         name="Telefono"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Teléfono"
-                                        value="{{ old('Telefono') }}"
+                                        value="{{ $Usuario->Telefono }}"
+                                        disabled
+                                        {{-- TODO: Se tiene que revisar como hacer la actualización del teléfono, ya que al mandar el mismo manda error de teléfono duplicado --}}
                                     />
                                 </div>
                             </div>
@@ -116,17 +126,24 @@
                                         </svg>
                                     </div>
                                     <select name="ID_Tipo_Usuario" id="ID_Tipo_Usuario" class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent">
-                                        @if (!old('ID_Tipo_Usuario'))
-                                        <option value="">Selecciona</option>
-                                        <option value="1">Docentes</option>
-                                        <option value="2">Mixto</option>
-                                        <option value="3">Alumno</option>
-                                        @else
-                                            <option value="{{ old('ID_Tipo_Usuario') }}">Seleccionado</option>
-                                            <option value="1">Docentes</option>
-                                            <option value="2">Mixto</option>
-                                            <option value="3">Alumno</option>
+                                        {{-- @if (!old('ID_Tipo_Usuario')) --}}
+                                            <option value="{{ $Usuario->Tipo_Usuario->ID_Tipo_Usuario }}">{{ $Usuario->Tipo_Usuario->Tipo_Usuario }}</option>
+                                        {{-- @endif --}}
+                                        <option value="1" 
+                                        @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 1)
+                                            selected="selected"
                                         @endif
+                                        >Docentes</option>
+                                        <option value="2" 
+                                        @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 2)
+                                            selected="selected"
+                                        @endif
+                                        >Mixto</option>
+                                        <option value="3"
+                                        @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 3)
+                                            selected="selected"
+                                        @endif
+                                        >Alumno</option>
                                     </select>
                                 </div>
                                 <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -140,7 +157,7 @@
                                         name="Email"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Correo electrónico"
-                                        value="{{ old('Email') }}"
+                                        value="{{ $Usuario->Email }}"
                                     />
                                 </div>
                             </div>
@@ -154,11 +171,11 @@
                                         </svg>
                                     </div>
                                     <input type="date"
-                                        id="Permiso.Inicio_Ingreso"
-                                        name="Permiso.Inicio_Ingreso"
+                                        id="P_Inicio_Ingreso"
+                                        name="P_Inicio_Ingreso"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Ingreso"
-                                        value="{{ old('Permiso.Inicio_Ingreso') }}"
+                                        value="{{ $Usuario->Permiso->Inicio_Ingreso  }}"
                                     />
                                 </div>
                                 <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -169,11 +186,11 @@
                                         </svg>
                                     </div>
                                     <input type="date"
-                                        id="Permiso.Fin_Ingreso"
-                                        name="Permiso.Fin_Ingreso"
+                                        id="P_Fin_Ingreso"
+                                        name="P_Fin_Ingreso"
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Salida"
-                                        value="{{ old('Permiso.Fin_Ingreso') }}"
+                                        value="{{ $Usuario->Permiso->Fin_Ingreso  }}"
                                     />
                                 </div>
                             </div>

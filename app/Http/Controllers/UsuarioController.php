@@ -127,8 +127,8 @@ class UsuarioController extends Controller
             'Ap_Paterno' => ['required', 'max:50'],
             'Ap_Materno' => ['max:50'],
             'ID_Tipo_Usuario' => ['required'],
-            'Permiso.Inicio_Ingreso' => ['required', 'date'],
-            'Permiso.Fin_Ingreso' => ['required', 'date'],
+            'P_Inicio_Ingreso' => ['required', 'date'],
+            'P_Fin_Ingreso' => ['required', 'date'],
             //Permite actualizar un usuario con email y telefono unico
             //Tercer parametro: ID usuario
             //Cuarto parametro: Llave primaria
@@ -144,8 +144,10 @@ class UsuarioController extends Controller
             //Actualizar permiso
             $PermisoRequest = $request->Permiso;
             $Permiso = new PermisoController();
-            $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
-            $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
+            // $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
+            // $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
+            $Permiso->Inicio_Ingreso = $request->P_Inicio_Ingreso;
+            $Permiso->Fin_Ingreso = $request->P_Fin_Ingreso;
             $Permiso->update($BusquedaUsuario->ID_Permiso);
 
             //Actualizar Usuario
@@ -157,8 +159,9 @@ class UsuarioController extends Controller
             $BusquedaUsuario->Email = $request->Email;
             $BusquedaUsuario->Estatus = $request->Estatus;
             $BusquedaUsuario->save();
-
+            return $request;
             return true;
+            // return to_route('dashboard');
         }
         return false;
     }

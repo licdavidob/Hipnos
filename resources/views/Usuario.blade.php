@@ -8,7 +8,8 @@
         <p>Fecha en la que finaliza su permiso: {{$Usuario->Permiso->Fin_Ingreso}}</p>
         <p>Telefono: {{$Usuario->Telefono}}</p>
         <p>Correo Electrónico: {{$Usuario->Email}}</p>
-        <img src={{$Usuario->QR->Ruta}}>
+        Imagen
+        <img src={{$Usuario->QR->Ruta_Local}}>
         <p>Estatus:
             @if ($Usuario->Estatus== 1)
                 Activo
