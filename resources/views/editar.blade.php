@@ -6,6 +6,7 @@
             </div>
             <div class="px-5">
                 <form action="{{ route('actualizar', 1) }}" class="flex flex-col items-center justify-center w-full py-10 justify-items-center" method="POST">
+                    @dd($Usuario)
                     @method('PUT')
                     @csrf
                     {{-- Div para errores --}}

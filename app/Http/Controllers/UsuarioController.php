@@ -50,13 +50,13 @@ class UsuarioController extends Controller
     public function edit($id_usuario)
     {
         
-        // $BusquedaUsuario = $this->usuarioById($id_usuario);
-        // $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
-        // $QR = new GenerarQR();
-        // $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
-        // $Usuario->QR = $QR;
-        return view('editar');
-        // return view('editar', compact('Usuario'));
+        $BusquedaUsuario = $this->usuarioById($id_usuario);
+        $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
+        $QR = new GenerarQR();
+        $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
+        $Usuario->QR = $QR;
+        // return view('editar');
+        return view('editar', compact('Usuario'));
     }
 
     /**
@@ -70,16 +70,15 @@ class UsuarioController extends Controller
             'Ap_Paterno' => ['required', 'max:50'],
             'Ap_Materno' => ['max:50'],
             'ID_Tipo_Usuario' => ['required'],
-            'Permiso.Inicio_Ingreso' => ['required', 'date'],
-            'Permiso.Fin_Ingreso' => ['required', 'date'],
+            'P_Inicio_Ingreso' => ['required', 'date'],
+            'P_Fin_Ingreso' => ['required', 'date'],
             'Telefono' => ['unique:usuario,Telefono', 'max:15', 'nullable'],
             'Email' => ['unique:usuario,Email', 'max:50', 'nullable', 'email',],
         ]);
 
-        $PermisoRequest = $request->Permiso;
         $Permiso = new PermisoController();
-        $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
-        $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
+        $Permiso->Inicio_Ingreso = $request->P_Inicio_Ingreso;
+        $Permiso->Fin_Ingreso = $request->P_Fin_Ingreso;
         $Permiso->store($Permiso)->latestPermiso();
 
         Usuario::create([

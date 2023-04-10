@@ -89,16 +89,23 @@
                             </div>
                             <select name="ID_Tipo_Usuario" id="ID_Tipo_Usuario" class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent">
                                 @if (!old('ID_Tipo_Usuario'))
-                                <option value="">Selecciona</option>
-                                <option value="1">Docentes</option>
-                                <option value="2">Mixto</option>
-                                <option value="3">Alumno</option>
-                                @else
-                                    <option value="{{ old('ID_Tipo_Usuario') }}">Seleccionado</option>
-                                    <option value="1">Docentes</option>
-                                    <option value="2">Mixto</option>
-                                    <option value="3">Alumno</option>
+                                    <option value="">Selecciona</option>
                                 @endif
+                                    <option value="1" 
+                                    @if (old('ID_Tipo_Usuario') == 1)
+                                        selected="selected"
+                                    @endif
+                                    >Docentes</option>
+                                    <option value="2" 
+                                    @if (old('ID_Tipo_Usuario') == 2)
+                                        selected="selected"
+                                    @endif
+                                    >Mixto</option>
+                                    <option value="3"
+                                    @if (old('ID_Tipo_Usuario') == 3)
+                                        selected="selected"
+                                    @endif
+                                    >Alumno</option>
                             </select>
                         </div>
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -126,11 +133,11 @@
                                 </svg>
                             </div>
                             <input type="date"
-                                id="Permiso.Inicio_Ingreso"
-                                name="Permiso.Inicio_Ingreso"
+                                id="P_Inicio_Ingreso"
+                                name="P_Inicio_Ingreso"
                                 class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                 placeholder="Ingreso"
-                                value="{{ old('Permiso.Inicio_Ingreso') }}"
+                                value="{{ old('P_Inicio_Ingreso') }}"
                             />
                         </div>
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
@@ -141,11 +148,11 @@
                                 </svg>
                             </div>
                             <input type="date"
-                                id="Permiso.Fin_Ingreso"
-                                name="Permiso.Fin_Ingreso"
+                                id="P_Fin_Ingreso"
+                                name="P_Fin_Ingreso"
                                 class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                 placeholder="Salida"
-                                value="{{ old('Permiso.Fin_Ingreso') }}"
+                                value="{{ old('P_Fin_Ingreso') }}"
                             />
                         </div>
                     </div>
