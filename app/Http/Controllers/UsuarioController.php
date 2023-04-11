@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PermisoController;
@@ -15,7 +18,7 @@ class UsuarioController extends Controller
     public int $ID_Usuario;
     public string $Nombre;
     public string $Ap_Paterno;
-    public string $Ap_Materno;
+    public ?string $Ap_Materno;
     public object $Tipo_Usuario;
     public object $Permiso;
     public ?string $Telefono;
@@ -24,6 +27,9 @@ class UsuarioController extends Controller
     public int $Estatus;
 
 
+    /**
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
     public function index()
     {
         $Usuarios = array();
@@ -45,13 +51,12 @@ class UsuarioController extends Controller
         return view('Usuarios', compact('Usuarios', 'Estadistica'));
     }
 
-    public function create()
+    /**
+     * @param int $id_usuario
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function edit(int $id_usuario)
     {
-        return view('create');
-    }
-    public function edit($id_usuario)
-    {
-
         $BusquedaUsuario = $this->usuarioById($id_usuario);
         $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
         $QR = new GenerarQR();
@@ -111,18 +116,11 @@ class UsuarioController extends Controller
         return redirect()->route('Usuario.index');
     }
 
-
-    public function show($id_usuario)
-    {
-        $BusquedaUsuario = $this->usuarioById($id_usuario);
-        $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
-        $QR = new GenerarQR();
-        $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
-        $Usuario->QR = $QR;
-
-        return view('Usuario', compact('Usuario'));
-    }
-
+    /**
+     * @param Request $request
+     * @param $id_usuario
+     * @return RedirectResponse
+     */
     public function update(Request $request, $id_usuario)
     {
         $request->validate([
@@ -142,34 +140,32 @@ class UsuarioController extends Controller
 
         $BusquedaUsuario = $this->usuarioById($id_usuario);
 
-        if ($BusquedaUsuario) {
+        //Actualizar permiso
+        $PermisoRequest = $request->Permiso;
+        $Permiso = new PermisoController();
 
-            //Actualizar permiso
-            $PermisoRequest = $request->Permiso;
-            $Permiso = new PermisoController();
-            // $Permiso->Inicio_Ingreso = $PermisoRequest['Inicio_Ingreso'];
-            // $Permiso->Fin_Ingreso = $PermisoRequest['Fin_Ingreso'];
-            $Permiso->Inicio_Ingreso = $request->P_Inicio_Ingreso;
-            $Permiso->Fin_Ingreso = $request->P_Fin_Ingreso;
-            $Permiso->update($BusquedaUsuario->ID_Permiso);
+        $Permiso->Inicio_Ingreso = $request->P_Inicio_Ingreso;
+        $Permiso->Fin_Ingreso = $request->P_Fin_Ingreso;
+        $Permiso->update($BusquedaUsuario->ID_Permiso);
 
-            //Actualizar Usuario
-            $BusquedaUsuario->Nombre = $request->Nombre;
-            $BusquedaUsuario->Ap_Paterno = $request->Ap_Paterno;
-            $BusquedaUsuario->Ap_Materno = $request->Ap_Materno;
-            $BusquedaUsuario->ID_Tipo_Usuario = $request->ID_Tipo_Usuario;
-            $BusquedaUsuario->Telefono = $request->Telefono;
-            $BusquedaUsuario->Email = $request->Email;
-            $BusquedaUsuario->Estatus = $request->Estatus;
-            $BusquedaUsuario->save();
-            return $request;
-            return true;
-            // return to_route('dashboard');
-        }
-        return false;
+        //Actualizar Usuario
+        $BusquedaUsuario->Nombre = $request->Nombre;
+        $BusquedaUsuario->Ap_Paterno = $request->Ap_Paterno;
+        $BusquedaUsuario->Ap_Materno = $request->Ap_Materno;
+        $BusquedaUsuario->ID_Tipo_Usuario = $request->ID_Tipo_Usuario;
+        $BusquedaUsuario->Telefono = $request->Telefono;
+        $BusquedaUsuario->Email = $request->Email;
+        $BusquedaUsuario->Estatus = $request->Estatus;
+        $BusquedaUsuario->save();
+
+        return redirect()->route('Usuario.index');
     }
 
 
+    /**
+     * @param string $id
+     * @return RedirectResponse
+     */
     public function destroy(string $id)
     {
         $Busqueda = $this->usuarioById($id);
@@ -186,7 +182,12 @@ class UsuarioController extends Controller
         return $this;
     }
 
-    public function usuarioById($id_usuario, $error404 = true)
+    /**
+     * @param int $id_usuario
+     * @param bool $error404
+     * @return false|never
+     */
+    public function usuarioById(int $id_usuario, bool $error404 = true)
     {
         $Busqueda = Usuario::find($id_usuario);
 
@@ -221,7 +222,11 @@ class UsuarioController extends Controller
         return $Usuario;
     }
 
-    public function modelToObject($ModelUsuario)
+    /**
+     * @param $ModelUsuario
+     * @return $this
+     */
+    public function modelToObject($ModelUsuario): static
     {
         $this->ID_Usuario = $ModelUsuario->ID_Usuario;
         $this->Nombre = $ModelUsuario->Nombre;

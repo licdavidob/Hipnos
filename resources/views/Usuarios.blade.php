@@ -34,83 +34,6 @@
                                 <th class="bg-ipn-5">Acciones</th>
                             </tr>
                         </thead>
-                        {{-- <tbody class="text-center">
-                            <tr class="bg-transparent border-b-2 border-dashed border-ipn">
-                                <td class="py-6">David Olvera Baeza</td>
-                                <td>Alumno</td>
-                                <td>13/03/2023 09:15 a. m.</td>
-                                <td>13/03/2023 17:50 p. m.</td>
-                                <td>1</td>
-                                <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
-                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
-                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <form action="{{ route('borrar',1) }}" method="POST" >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit">
-                                                <img src="/img/deleteW.png" alt="borrar">
-                                            </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="bg-transparent border-b-2 border-dashed border-ipn">
-                                <td class="py-6">Vanessa Vivero Reyes</td>
-                                <td>Alumno</td>
-                                <td>13/03/2023 09:15 a. m.</td>
-                                <td>13/03/2023 17:50 p. m.</td>
-                                <td>0</td>
-                                <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
-                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
-                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <form action="{{ route('borrar',1) }}" method="POST" >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit">
-                                                <img src="/img/deleteW.png" alt="borrar">
-                                            </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr class="bg-transparent border-b-2 border-dashed border-ipn">
-                                <td class="py-6">Uriel Sanjuan Morales</td>
-                                <td>Maestro</td>
-                                <td>13/03/2023 09:15 a. m.</td>
-                                <td>13/03/2023 17:50 p. m.</td>
-                                <td>1</td>
-                                <td class="flex items-center py-6 space-x-2 justify-evenly">
-                                    <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
-                                        <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <a href="{{ route('editar', 1) }}"><img src="/img/editW.png" alt="edit"></a>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center justify-center w-6 h-6 rounded-lg bg-ipn">
-                                        <div class="w-4 mt-1 duration-300 ease-in-out transform-all hover:scale-110">
-                                            <form action="{{ route('borrar',1) }}" method="POST" >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit">
-                                                <img src="/img/deleteW.png" alt="borrar">
-                                            </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody> --}}
                         <tbody class="text-center">
                             @foreach ($Usuarios as $Usuario)
                             <tr class="bg-transparent border-b-2 border-dashed border-ipn">
@@ -118,7 +41,13 @@
                                 <td>{{ $Usuario->Tipo_Usuario->Tipo_Usuario }}</td>
                                 <td>{{  $Usuario->Permiso->Inicio_Ingreso  }}</td>
                                 <td>{{ $Usuario->Permiso->Fin_Ingreso }}</td>
-                                <td>{{ $Usuario->Estatus }}</td>
+                                <td>
+                                    @if($Usuario->Estatus)
+                                        Activo
+                                    @else
+                                        Desactivado
+                                    @endif
+                                </td>
                                 <td class="flex items-center py-6 space-x-2 justify-evenly">
                                     <div class="flex items-center justify-center w-6 h-6 mr-1 rounded-lg bg-ipn">
                                         <div class="w-4 duration-300 ease-in-out transform-all hover:scale-110">
