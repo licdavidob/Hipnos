@@ -24,12 +24,12 @@ class CorreoControler extends Controller
 
     public function __construct()
     {
-        $this->Host = 'smtp.gmail.com';
-        $this->Username = 'david.olvera@tsjcdmx.gob.mx';
-        $this->clientId = '112239055010-6ml9jedfm8n5uv2f9qqrglvq3b8hp4gn.apps.googleusercontent.com';
-        $this->clientSecret = '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';
-        $this->refreshToken = '1//0f4UgROH7uTzxCgYIARAAGA8SNwF-L9Ir2gbCh7AAjhoaYvLtHJ5r_3AaF7f_IhBGfqfINQuxSgKy_n1k7mkP50MbOeF45s_PFwo';
-        $this->Port =  465;
+        $this->Host = env('MAIL_HOST');
+        $this->Username = env('MAIL_USERNAME');
+        $this->clientId = env('MAIL_CLIENT_ID');
+        $this->clientSecret = env('MAIL_CLIENT_SECRET');
+        $this->refreshToken = env('MAIL_REFRESH_TOKEN');
+        $this->Port =  env('MAIL_PORT');
         $this->mail = new PHPMailer(true);
         $this->DefineProvider()->DefineOAuth();
     }

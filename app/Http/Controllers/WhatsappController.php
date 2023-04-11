@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 
 class WhatsappController extends Controller
 {
-    private string $url = 'https://graph.facebook.com/v16.0/102166226187858/messages';
-    private string $Token = 'EAAUYc2FcqW0BACPAFbwQcqgP7ZAKOd1hdtZAfIMbZAkeoqdlhfVey6pC6CuCOwZBHQBWwVWAnFlPw8nkJZAD5SQQVpGnaJBp0E00YnOZCBQYn0Y1NvNNskpmLWQ2IC5vXJZBhRRDXGz2H0zt2m2G5mVKV7I0WvPRZCd3htdzQoKZC2xjD5nZBkhaaNyZA5ZAQaAQwauFbOhmlClZCFSG9ARZC1Wvn6ZAbV5FYJUc1YZD';
-    private array $Header = array();
-    private array $Message = array();
-    private array $Templade = array();
-    private array $language = array();
+    private string $url;
+    private string $Token;
+    private array $Header;
+    private array $Message;
+    private array $Templade;
+    private array $language;
 
     public function __construct()
     {
+        $this->url = env('WHATSAPP_URL');
+        $this->Token = env('WHATSAPP_TOKEN');
+
         $this->language = array('code' => 'en_US');
 
         $this->Templade = array(

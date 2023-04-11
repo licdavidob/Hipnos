@@ -14,11 +14,6 @@ use App\Http\Controllers\UsuarioController;
 |
 */
 
-// Route::get('/', function () {
-//     return "Holi";
-// });
-// })->middleware('auth:sanctum');
-// Route::get('/tester/{usuario}', [UsuarioController::class, 'show']);
 Route::get('/', [UsuarioController::class, 'index'])->middleware(['auth:sanctum'])->name('dashboard');
 Route::post('/', [UsuarioController::class, 'store'])->middleware(['auth:sanctum'])->name('guardar');
 Route::get('create', [UsuarioController::class, 'create'])->middleware(['auth:sanctum'])->name('crear');

@@ -28,6 +28,7 @@ class UsuarioController extends Controller
     {
         $Usuarios = array();
         $Estadistica = array(
+            "Total" => 0,
             "Alumno" => 0,
             "Docente" => 0,
             "Mixto" => 0,
@@ -38,6 +39,7 @@ class UsuarioController extends Controller
             $this->ModeltoObject($Usuario);
             $Usuarios[] = $this->getUsuario();
             $Estadistica[$this->Tipo_Usuario->Tipo_Usuario]++;
+            $Estadistica['Total']++;
         }
 
         return view('Usuarios', compact('Usuarios', 'Estadistica'));
@@ -114,9 +116,10 @@ class UsuarioController extends Controller
     {
         $BusquedaUsuario = $this->usuarioById($id_usuario);
         $Usuario = $this->modelToObject($BusquedaUsuario)->getUsuario();
-        // $QR = new GenerarQR();
-        // $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
-        // $Usuario->QR = $QR;
+        $QR = new GenerarQR();
+        $QR->modelToObject($BusquedaUsuario->CodigoQR)->existsQR();
+        $Usuario->QR = $QR;
+
         return view('Usuario', compact('Usuario'));
     }
 
