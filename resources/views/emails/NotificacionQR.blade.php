@@ -471,7 +471,11 @@
                                     " role="presentation">
                                                 <tr>
                                                     <td align="center" class="es-m-txt-c" style="padding: 0; margin: 0">
-                                                        <img src="{{$Usuario->QR->Ruta_Publica}}" alt="">
+                                                        <div
+                                                            style="border: 0.5rem solid #6c1d45; border-radius: 10px; padding: 1em;">
+                                                            <img src="{{$Usuario->QR->Ruta_Publica}}" alt=""
+                                                                style="width:15rem">
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             </table>
@@ -595,7 +599,9 @@
                                             font-style: normal;
                                             font-weight: bold;
                                             color: #ffffff;
-                                          ">{{"$Usuario->Nombre $Usuario->Ap_Paterno $Usuario->Ap_Materno"}}
+                                          ">
+                                                            {{"$Usuario->Nombre $Usuario->Ap_Paterno
+                                                            $Usuario->Ap_Materno"}}
                                                         </h3>
                                                     </td>
                                                 </tr>
@@ -640,7 +646,8 @@
                                             font-style: normal;
                                             font-weight: bold;
                                             color: #ffffff;
-                                          ">{{$Usuario->Tipo_Usuario->Tipo_Usuario}}
+                                          ">
+                                                            {{$Usuario->Tipo_Usuario->Tipo_Usuario}}
                                                         </h3>
                                                     </td>
                                                 </tr>

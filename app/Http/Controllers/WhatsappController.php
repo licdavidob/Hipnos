@@ -18,10 +18,10 @@ class WhatsappController extends Controller
         $this->url = env('WHATSAPP_URL');
         $this->Token = env('WHATSAPP_TOKEN');
 
-        $this->language = array('code' => 'en_US');
+        $this->language = array('code' => 'es_MX');
 
         $this->Templade = array(
-            'name' => 'hello_world',
+            'name' => 'welcome_accesoupiicsa',
             'language' => $this->language
         );
 
