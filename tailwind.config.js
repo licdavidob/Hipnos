@@ -34,6 +34,7 @@ module.exports = {
             textColor: {
                 'ipn': '#75003E',
                 'ipn-dark': '#400022',
+                'ipn-gray': '#414040',
             },
             borderColor: {
                 'ipn': '#75003E',

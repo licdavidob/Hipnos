@@ -133,17 +133,17 @@
                                         @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 1)
                                             selected="selected"
                                         @endif
-                                        >Docentes</option>
+                                        >Alumno</option>
                                         <option value="2" 
                                         @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 2)
                                             selected="selected"
                                         @endif
-                                        >Mixto</option>
+                                        >Docente</option>
                                         <option value="3"
                                         @if ($Usuario->Tipo_Usuario->ID_Tipo_Usuario == 3)
                                             selected="selected"
                                         @endif
-                                        >Alumno</option>
+                                        >Mixto</option>
                                     </select>
                                 </div>
                                 <div class="relative w-full my-2 overflow-hidden rounded-md">

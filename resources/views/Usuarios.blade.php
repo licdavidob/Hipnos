@@ -1,5 +1,6 @@
 <x-app-layout>
     <div class="p-10 px-16">
+        {{-- @dd($Estadistica["Nombre"]) --}}
         <div class="shadow-md backdrop-blur-sm shadow-gray-400">
             <div class="relative flex justify-end w-full pt-10 -right-5">
                 <p class="px-16 py-1 text-lg text-white rounded-l-lg bg-ipn">Gráficas</p>
@@ -8,13 +9,41 @@
             <div class="px-5">
                 {{-- Contenedor de total de usuarios --}}
                 <div class="flex items-center py-10 pl-10 space-x-10">
-                    <p class="text-2xl font-bold text-ipn">Total de usuarios</p>
-                    <div class="flex items-center justify-center w-28 h-28 border-[15px] rounded-full border-ipn">
-                        <p class="text-xl font-bold text-ipn">{{ $Estadistica["Alumno"]+$Estadistica["Docente"]+$Estadistica["Mixto"]}}</p>
+                    <p class="text-4xl font-bold text-ipn">Total de usuarios</p>
+                    <div class="flex items-center justify-center w-28 h-28 border-[15px] rounded-full border-ipn shadow-inner">
+                        <p class="text-4xl font-bold text-ipn-gray">{{ $Estadistica["Total"]}}</p>
                     </div>
                 </div>
-                <div class="w-full py-5 bg-white">
-                    <img src="/img/Graficas.png" alt="">
+                <div class="w-full py-5 flex justify-evenly items-center h-[400px] bg-white rounded-lg shadow-xl">
+                    <div class="w-full h-full flex justify-center items-center space-x-20">
+                        {{-- <p class="w-full font-bold text-center block">Hola</p> --}}
+                        <canvas id="myChart"></canvas>
+                        <div class="flex flex-col justify-evenly h-full pt-4 w-1/4">
+                            <div class="flex justify-around items-center">
+                                <p class="mr-4 font-bold text-ipn text-lg">Alumno</p>
+                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
+                                    <p>{{ $Estadistica["Alumno"] }}</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-around items-center">
+                                <p class="mr-4 font-bold text-ipn text-lg">Docente</p>
+                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
+                                    <p>{{ $Estadistica["Docente"] }}</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-around items-center">
+                                <p class="mr-4 font-bold text-ipn text-lg">Mixto</p>
+                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
+                                    <p>{{ $Estadistica["Mixto"] }}</p>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                    {{-- <div class="w-1/2 h-96">
+                        <canvas id="mySecondChart"></canvas>
+                    </div> --}}
+                    {{-- <img src="/img/Graficas.png" alt=""> --}}
                 </div>
                 <div class="relative flex justify-end w-full px-6 py-10">
                     <a href="{{ route('crear') }}"
@@ -74,4 +103,10 @@
             </div>
         </div>
     </div>
+    <script>
+        var Estadistica = @json($Estadistica);
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/sample-chart.js"></script>
 </x-app-layout>
