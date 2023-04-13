@@ -12,13 +12,13 @@
                         <div class="w-full">
                             <ul class="flex flex-col items-center justify-center p-5 space-y-1">
                                 @foreach ($errors->all() as $error )
-                                    <li class="w-1/3 py-2 pl-10 text-white rounded-md bg-ipn">{{ $error }}</li>
+                                    <li class="w-full md:w-1/2 py-2 pl-2 text-white rounded-md bg-ipn text-center">{{ $error }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     @endif
                     {{-- Input 1 y 2 --}}
-                    <div class="flex w-8/12 space-x-10">
+                    <div class="flex flex-col md:flex-row w-8/12 md:space-x-10 ">
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
                             <div class="absolute inset-y-0 left-0 flex items-center px-6 pointer-events-none bg-ipn-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     {{-- Input 3 y 4 --}}
-                    <div class="flex w-8/12 space-x-10">
+                    <div class="flex flex-col md:flex-row w-8/12 md:space-x-10">
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
                             <div class="absolute inset-y-0 left-0 flex items-center px-6 pointer-events-none bg-ipn-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white">
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                     {{-- Input 5 y 6 --}}
-                    <div class="flex w-8/12 space-x-10">
+                    <div class="flex flex-col md:flex-row w-8/12 md:space-x-10">
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
                             <div class="absolute inset-y-0 left-0 flex items-center px-6 pointer-events-none bg-ipn-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     {{-- Input 7 y 8 --}}
-                    <div class="flex w-8/12 space-x-10">
+                    <div class="flex flex-col md:flex-row w-8/12 md:space-x-10">
                         <div class="relative w-full my-2 overflow-hidden rounded-md">
                             <div class="absolute inset-y-0 left-0 flex items-center px-6 pointer-events-none bg-ipn-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 text-white">
@@ -156,10 +156,10 @@
                             />
                         </div>
                     </div>
-                    <div class="flex py-10 space-x-10 justify-evenly">
+                    {{-- Botones --}}
+                    <div class="flex flex-col md:flex-row space-y-5 md:space-y-0 py-10 md:space-x-10 justify-evenly">
                         <a href="{{ route('dashboard') }}" class="px-10 py-3 font-bold text-white bg-red-700 rounded-md">Cancelar</a>
                         <button class="px-10 py-3 font-bold text-white rounded-md bg-ipn">Guardar</button>
-{{-- TODO: Se tiene que cambiar el nombre de fecha ingreso --}}
                     </div>
                 </form>
             </div>

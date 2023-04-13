@@ -14,53 +14,70 @@
                         <p class="text-4xl font-bold text-ipn-gray">{{ $Estadistica["Total"]}}</p>
                     </div>
                 </div>
-                <div class="w-full py-5 flex justify-evenly items-center h-[400px] bg-white rounded-lg shadow-xl">
-                    <div class="w-full h-full flex justify-center items-center space-x-20">
-                        {{-- <p class="w-full font-bold text-center block">Hola</p> --}}
-                        <canvas id="myChart"></canvas>
-                        <div class="flex flex-col justify-evenly h-full pt-4 w-1/4">
-                            <div class="flex justify-around items-center">
-                                <p class="mr-4 font-bold text-ipn text-lg">Alumno</p>
-                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
-                                    <p>{{ $Estadistica["Alumno"] }}</p>
-                                </div>
+                @if ($Estadistica["Total"] == 0)
+                    <div class="w-full py-5 flex justify-center items-center h-[400px]">
+                        <div class="flex justify-center items-center p-5 rounded-md">
+                            <div class="w-20 bg-red-700 flex justify-center items-center h-20 rounded-l-xl">
+                                <img src="/img/eliminarWhite.png" alt="icon alert" class="h-10 w-10">
                             </div>
-                            <div class="flex justify-around items-center">
-                                <p class="mr-4 font-bold text-ipn text-lg">Docente</p>
-                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
-                                    <p>{{ $Estadistica["Docente"] }}</p>
-                                </div>
+                            <div class="h-20 flex flex-col justify-center items-center bg-white px-5 rounded-r-xl">
+                                <p class=" self-start font-bold text-xl text-red-700">Error</p>
+                                <p class="font-bold text-ipn-dark">No hay datos para mostrar la gráfica, por favor ingrese un registro</p>
                             </div>
-                            <div class="flex justify-around items-center">
-                                <p class="mr-4 font-bold text-ipn text-lg">Mixto</p>
-                                <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn shadow-inner">
-                                    <p>{{ $Estadistica["Mixto"] }}</p>
-                                </div>
-                            </div>
-    
+
                         </div>
                     </div>
-                    {{-- <div class="w-1/2 h-96">
-                        <canvas id="mySecondChart"></canvas>
-                    </div> --}}
-                    {{-- <img src="/img/Graficas.png" alt=""> --}}
-                </div>
+                @else
+                    <div class="w-full py-5 flex justify-evenly items-center h-max-[400px] bg-white rounded-lg shadow-xl">
+                        {{-- <div class="w-full h-full flex justify-center items-center space-x-20"> --}}
+                        <div class="grid grid-cols-1 xl:grid-cols-2 w-full h-full place-content-center gap-x-5">
+                            <div class=" col-span-1 w-full h-full">
+                                <div class="flex justify-center items-center px-5">
+                                    <canvas id="graficaPrincipal"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="flex flex-col justify-evenly h-full pt-4 w-full px-5">
+                                    <div class="flex items-center w-full xl:w-[200px] justify-evenly xl:justify-between">
+                                        <p class="mx-4 xl:ml-0 xl:mr-4 font-bold text-ipn text-lg">Alumno</p>
+                                        <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn-1 shadow-inner">
+                                            <p>{{ $Estadistica["Alumno"] }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center w-full xl:w-[200px] justify-evenly xl:justify-between">
+                                        <p class="mx-4 xl:ml-0 xl:mr-4 font-bold text-ipn text-lg">Docente</p>
+                                        <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn-3 shadow-inner">
+                                            <p>{{ $Estadistica["Docente"] }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center w-full xl:w-[200px] justify-evenly xl:justify-between">
+                                        <p class="mx-4 xl:ml-0 font-bold text-ipn text-lg pl-5 xl:pl-0">Mixto</p>
+                                        <div class="flex items-center justify-center w-20 h-20 border-[12px] rounded-full border-ipn-5 shadow-inner">
+                                            <p>{{ $Estadistica["Mixto"] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
                 <div class="relative flex justify-end w-full px-6 py-10">
                     <a href="{{ route('crear') }}"
                         class="p-2 px-5 text-lg font-semibold text-center transition duration-700 ease-out border-4 rounded-md cursor-pointer text-ipn border-ipn hover:bg-ipn hover:text-white"
                         >Nuevo Usuario
                     </a>
                 </div>
-                <div class="py-10">
+                <div class="py-10 overflow-x-auto">
                     <table class="w-full overflow-hidden rounded-md">
                         <thead class="text-center">
                             <tr class="text-white bg-black">
-                                <th class="py-7 bg-ipn">Nombre</th>
-                                <th class="bg-ipn-1">Tipo</th>
-                                <th class="bg-ipn-2">Ingreso</th>
-                                <th class="bg-ipn-3">Salida</th>
-                                <th class="bg-ipn-4">Estatus</th>
-                                <th class="bg-ipn-5">Acciones</th>
+                                <th class="py-7 bg-ipn px-16">Nombre</th>
+                                <th class="bg-ipn-1 px-5">Tipo</th>
+                                <th class="bg-ipn-2 px-10">Ingreso</th>
+                                <th class="bg-ipn-3 px-10">Salida</th>
+                                <th class="bg-ipn-4 px-5">Estatus</th>
+                                <th class="bg-ipn-5 px-5">Acciones</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -108,5 +125,5 @@
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="assets/js/sample-chart.js"></script>
+    <script src="assets/js/grafica.js"></script>
 </x-app-layout>

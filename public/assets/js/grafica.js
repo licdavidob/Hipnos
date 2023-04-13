@@ -1,4 +1,4 @@
-var sampleChartClass;
+var graficas;
 (function($) {
   $(document).ready(function(){
 
@@ -7,11 +7,11 @@ var sampleChartClass;
     var data = Object.values(Estadistica);
     data.shift();
 
-    var ctx = document.getElementById('myChart');
-    sampleChartClass.ChartData(ctx, 'bar', labels, data)
+    var ctx = document.getElementById('graficaPrincipal');
+    graficas.ChartData(ctx, 'bar', labels, data)
 
   });
-  sampleChartClass = {
+  graficas = {
     ChartData:function (ctx, type, labels, data) {
     new Chart(ctx, {
       type: type,
@@ -30,8 +30,10 @@ var sampleChartClass;
         },
       ],
       },
+      maintainAspectRatio: false,
       options:
       {
+        responsive: true,
         plugins: {
           title: {
               display: true,
