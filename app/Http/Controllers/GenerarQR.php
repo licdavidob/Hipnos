@@ -32,7 +32,7 @@ class GenerarQR extends Controller
         $this->Ruta_Publica = $Dominio_Publico . $this->Ruta_Local;
         //Se almacena la imagen
         Storage::disk('public')->put($this->Ruta_Local, $this->Imagen);
-        Storage::disk('ftp')->put($this->Ruta_Local, $this->Imagen);
+        // Storage::disk('ftp')->put($this->Ruta_Local, $this->Imagen);
         //Se obtiene la URL donde se almaceno la imagen
         $this->Ruta_Local = Storage::url($this->Ruta_Local);
 

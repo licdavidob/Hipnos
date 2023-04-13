@@ -123,7 +123,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id_usuario)
     {
-        $request->Estatus ? $request->Estatus=1 : $request->Estatus=0;
+        $request->Estatus ? $request->Estatus = 1 : $request->Estatus = 0;
         $request->validate([
             'Nombre' => ['required', 'max:50'],
             'Ap_Paterno' => ['required', 'max:50'],
