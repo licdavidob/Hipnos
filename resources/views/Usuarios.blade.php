@@ -3,7 +3,7 @@
         {{-- @dd($Estadistica["Nombre"]) --}}
         <div class="shadow-md backdrop-blur-sm shadow-gray-400">
             <div class="relative flex justify-end w-full pt-10 -right-5">
-                <p class="px-16 py-1 text-lg text-white rounded-l-lg bg-ipn">Gráficas</p>
+                <p class="text-center py-3 w-60 text-lg text-white rounded-l-lg bg-ipn">Gráficas</p>
             </div>
             {{-- Contenedor de los elementos de la tabla --}}
             <div class="px-5">

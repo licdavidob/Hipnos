@@ -123,6 +123,7 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, $id_usuario)
     {
+        $request->Estatus ? $request->Estatus=1 : $request->Estatus=0;
         $request->validate([
             'Nombre' => ['required', 'max:50'],
             'Ap_Paterno' => ['required', 'max:50'],
@@ -135,13 +136,12 @@ class UsuarioController extends Controller
             //Cuarto parametro: Llave primaria
             'Telefono' => ['unique:usuario,Telefono,' . $id_usuario . ',ID_Usuario', 'max:15', 'nullable'],
             'Email' => ['unique:usuario,Email,' . $id_usuario . ',ID_Usuario', 'max:50', 'nullable', 'email'],
-            'Estatus' => ['required', 'max:1'],
         ]);
 
         $BusquedaUsuario = $this->usuarioById($id_usuario);
 
         //Actualizar permiso
-        $PermisoRequest = $request->Permiso;
+        // $PermisoRequest = $request->Permiso;
         $Permiso = new PermisoController();
 
         $Permiso->Inicio_Ingreso = $request->P_Inicio_Ingreso;
@@ -157,6 +157,7 @@ class UsuarioController extends Controller
         $BusquedaUsuario->Email = $request->Email;
         $BusquedaUsuario->Estatus = $request->Estatus;
         $BusquedaUsuario->save();
+
 
         return redirect()->route('Usuario.index');
     }

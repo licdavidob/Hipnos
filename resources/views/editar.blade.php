@@ -2,7 +2,7 @@
     <div class="p-10 m-5">
         <div class="shadow-md backdrop-blur-sm shadow-gray-400">
             <div class="relative flex justify-end w-full -right-5">
-                <p class="px-16 py-1 my-4 text-lg text-white rounded-l-lg bg-ipn">Editar Usuario</p>
+                <p class="py-3 w-60 text-center my-4 text-lg text-white rounded-l-lg bg-ipn">Editar Usuario</p>
             </div>
             <div class="px-5">
                 <form action="{{ route('actualizar', 1) }}" class="flex flex-col items-center justify-center w-full py-10 justify-items-center" method="POST">
@@ -39,13 +39,7 @@
                                     <div class="flex items-center justify-center w-full space-x-5">
                                         <p class="text-2xl font-bold text-ipn">Estatus:</p>
                                         <div class="flex">
-                                            <input type="checkbox" id="Estatus" class="hidden peer" name="Estatus"
-                                            @if ($Usuario->Estatus == 1)
-                                                @checked(true)
-                                                value = {{ $Usuario->Estatus }}
-                                            @endif
-                                                value = {{ $Usuario->Estatus }}
-                                            />
+                                            <input type="checkbox" id="Estatus" class="hidden peer" name="Estatus" @checked($Usuario->Estatus)/>
                                             <label for="Estatus" class="px-6 py-3 font-bold transition-colors duration-200 ease-in-out border-2 rounded-lg cursor-pointer select-none text-ipn border-ipn peer-checked:bg-ipn-dark peer-checked:text-white peer-checked:border-ipn-dark "> Activo </label>
                                         </div>
                                     </div>
@@ -112,8 +106,6 @@
                                         class="w-full pl-20 p-2.5 border-none rounded-r-md bg-ipn text-white placeholder:text-white text-sm focus:ring-transparent"
                                         placeholder="Teléfono"
                                         value="{{ $Usuario->Telefono }}"
-                                        disabled
-                                        {{-- TODO: Se tiene que revisar como hacer la actualización del teléfono, ya que al mandar el mismo manda error de teléfono duplicado --}}
                                     />
                                 </div>
                             </div>
